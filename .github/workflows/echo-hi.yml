@@ -42,7 +42,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: crosstool-ng-tools
-        path: $HOME/ct-ng-tools.tgz
+        path: ct-ng-tools.tgz
 
     - name: Build x-tools
       run: |
@@ -57,5 +57,5 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: x-tools
-        path: $HOME/x-tools.tgz
+        path: x-tools.tgz
         
