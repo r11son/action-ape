@@ -22,16 +22,36 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Hello, world!
+    - name: Install pre-reqs
+      run: sudo apt install -y build-essential autoconf bison flex texinfo help2man gawk libtool libncurses5-dev python3-dev python3-distutils git libtool-bin
 
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
+    - name: Build ct-ng
       run: |
         mkdir -p build
         pwd
         git clone --depth 1 https://github.com/crosstool-ng/crosstool-ng.git
         cd crosstool-ng
         ./bootstrap
+        ./configure --prefix=/opt/crosstool-ng
+        make
+        sudo make install
 
+    - name: Archive ct-ng tools
+      uses: actions/upload-artifact@v1
+      with:
+        name: crosstool-ng-tools
+        path: /opt/crosstool-ng
+
+    - name: Build x-tools
+      run: |
+        mkdir -p $HOME/ct-build
+        cd $HOME/ct-build
+        cp $GITHUB_WORKSPACE/crosstool-ng.config ./.config
+        /opt/crosstool-ng/bin/ct-ng build
+
+    - name: Archive x-tools
+      uses: actions/upload-artifact@v1
+      with:
+        name: x-tools
+        path: /opt/x-tools
+        
