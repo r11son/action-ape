@@ -33,3 +33,5 @@ jobs:
         pwd
         git clone --depth 1 https://github.com/crosstool-ng/crosstool-ng.git
         cd crosstool-ng
+        ./bootstrap
+
