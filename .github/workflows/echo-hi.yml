@@ -35,14 +35,6 @@ jobs:
         ./configure --prefix=/opt/crosstool-ng
         make
         sudo make install
-        cd /opt
-        tar czf $HOME/ct-ng-tools.tgz crosstool-ng
-
-    - name: Archive ct-ng tools
-      uses: actions/upload-artifact@v1
-      with:
-        name: crosstool-ng-tools
-        path: ct-ng-tools.tgz
 
     - name: Build x-tools
       run: |
@@ -50,12 +42,10 @@ jobs:
         cd $HOME/ct-build
         cp $GITHUB_WORKSPACE/crosstool-ng.config ./.config
         /opt/crosstool-ng/bin/ct-ng --quiet build
-        cd /opt
-        tar czf $HOME/x-tools.tgz x-tools
 
     - name: Archive x-tools
       uses: actions/upload-artifact@v1
       with:
         name: x-tools
-        path: x-tools.tgz
+        path: /opt/x-tools
         
