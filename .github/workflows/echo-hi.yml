@@ -6,9 +6,9 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ not-a-thing ]
-  # pull_request:
-  #   branches: [ master ]
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -43,9 +43,34 @@ jobs:
         cp $GITHUB_WORKSPACE/crosstool-ng.config ./.config
         /opt/crosstool-ng/bin/ct-ng --quiet build
 
+    - name: Tar x-tools
+      run: |
+        cd /opt
+        tar -cvzf ${{ github.workspace }}/x-tools.tgz x-tools
+
     - name: Archive x-tools
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2-preview
       with:
         name: x-tools
-        path: /opt/x-tools
-        
+        path: ${{ github.workspace }}/test.tar
+      
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ${{ github.workspace }}/x-tools.tgz
+        asset_name: x-tools.tgz
+        asset_content_type: application/gzip
