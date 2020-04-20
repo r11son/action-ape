@@ -28,11 +28,11 @@ jobs:
         mkdir -p test
         echo "not very interesting" > test/bla
         chmod +x test/bla
-        tar -cvf ${{ github.workspace }}/test.tar test
+        tar -cvzf ${{ github.workspace }}/test.tgz test
 
     - name: Archive x-tools
       uses: actions/upload-artifact@v2-preview
       with:
         name: test-tar
-        path: ${{ github.workspace }}/test.tar
+        path: ${{ github.workspace }}/test.tgz
         
