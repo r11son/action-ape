@@ -24,15 +24,15 @@ jobs:
 
     - name: Make tar file
       run: |
-        mkdir -p $HOME/test
-        echo "not very interesting" > $HOME/test/bla
-        chmod +x $HOME/test/bla
-        cd $HOME
+        mkdir -p /github/home/test
+        echo "not very interesting" > /github/home/test/bla
+        chmod +x /github/home/test/bla
+        cd /github/home
         tar -cvf test.tar test
 
     - name: Archive x-tools
-      uses: actions/upload-artifact@v2-preview
+      uses: actions/upload-artifact@v1
       with:
         name: test-tar
-        path: $HOME/test.tar
+        path: /github/home/test.tar
         
