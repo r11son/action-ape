@@ -28,11 +28,11 @@ jobs:
         echo "not very interesting" > $HOME/test/bla
         chmod +x $HOME/test/bla
         cd $HOME
-        tar -cvf $HOME/test.tar $HOME/test
+        tar -cvf test.tar test
 
     - name: Archive x-tools
       uses: actions/upload-artifact@v1
       with:
         name: test-tar
-        path: $HOME/test.tar
+        path: test.tar
         
