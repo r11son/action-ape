@@ -31,8 +31,8 @@ jobs:
         tar -cvf test.tar test
 
     - name: Archive x-tools
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2-preview
       with:
         name: test-tar
-        path: test.tar
+        path: $HOME/test.tar
         
