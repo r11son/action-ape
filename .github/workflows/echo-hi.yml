@@ -37,6 +37,7 @@ jobs:
         sudo make install
 
     - name: Build x-tools
+      shell: bash
       run: |
         mkdir -p $HOME/ct-build
         cd $HOME/ct-build
