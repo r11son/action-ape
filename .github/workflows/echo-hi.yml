@@ -41,7 +41,7 @@ jobs:
         mkdir -p $HOME/ct-build
         cd $HOME/ct-build
         cp $GITHUB_WORKSPACE/crosstool-ng.config ./.config
-        /opt/crosstool-ng/bin/ct-ng --quiet build
+        /opt/crosstool-ng/bin/ct-ng build
 
     - name: Tar x-tools
       run: |
