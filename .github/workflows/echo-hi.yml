@@ -43,6 +43,14 @@ jobs:
         cd $HOME/ct-build
         cp $GITHUB_WORKSPACE/crosstool-ng.config ./.config
         /opt/crosstool-ng/bin/ct-ng build
+        tail build.log
+        tar -cvzf ${{ github.workspace }}/x-tool-build-log.tgz build.log
+
+    - name: Archive x-tools-build-log
+      uses: actions/upload-artifact@v2-preview
+      with:
+        name: x-tools-build-log
+        path: ${{ github.workspace }}/x-tool-build-log.tgz
 
     - name: Tar x-tools
       run: |
